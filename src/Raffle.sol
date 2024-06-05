@@ -11,6 +11,7 @@ error Raffle_NotEnoughEthSent();
  */
 contract Raffle {
     uint256 private immutable i_entranceFee;
+    address payable[] private s_players;
 
     constructor(uint256 entranceFee) {
         i_entranceFee = entranceFee;
@@ -26,6 +27,8 @@ contract Raffle {
         if (msg.value < i_entranceFee) {
             revert Raffle_NotEnoughEthSent();
         }
+
+        s_players.push(payable(msg.sender));
     }
 
     function pickWinner() public {}
