@@ -11,12 +11,17 @@ error Raffle_NotEnoughEthSent();
  */
 contract Raffle {
     uint256 private immutable i_entranceFee;
+    //@dev duration of the lottery in seconds
+    uint256 private immutable i_interval;
     address payable[] private s_players;
+    uint256 private s_lastTimeStamp;
 
     event EnteredRaffle(address indexed player);
 
-    constructor(uint256 entranceFee) {
+    constructor(uint256 entranceFee, uint256 interval) {
         i_entranceFee = entranceFee;
+        i_interval = interval;
+        s_lastTimeStamp = block.timestamp;
     }
 
     /** External Functions */
@@ -34,5 +39,9 @@ contract Raffle {
         emit EnteredRaffle(msg.sender);
     }
 
-    function pickWinner() external {}
+    function pickWinner() external {
+        if (block.timestamp - s_lastTimeStamp < i_interval) {
+            revert();
+        }
+    }
 }
