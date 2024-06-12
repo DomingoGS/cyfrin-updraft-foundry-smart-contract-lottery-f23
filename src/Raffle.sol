@@ -34,5 +34,5 @@ contract Raffle {
         emit EnteredRaffle(msg.sender);
     }
 
-    function pickWinner() public {}
+    function pickWinner() external {}
 }
