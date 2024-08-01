@@ -51,15 +51,15 @@ contract Raffle is VRFConsumerBaseV2Plus {
         uint256 interval,
         address vrfCoordinator,
         bytes32 keyHash,
-        uint256 subscriptionId,
-        uint32 callbackGasLimit
+        uint32 callbackGasLimit,
+        uint256 subscriptionId
     ) VRFConsumerBaseV2Plus(vrfCoordinator) {
         i_entranceFee = entranceFee;
         i_interval = interval;
         i_vrfCoordinator = IVRFCoordinatorV2Plus(vrfCoordinator);
         i_keyHash = keyHash;
-        i_subscriptionId = subscriptionId;
         i_callbackGasLimit = callbackGasLimit;
+        i_subscriptionId = subscriptionId;
         i_enableNativePayment = false;
         s_lastTimeStamp = block.timestamp;
         s_raffleState = RaffleState.OPEN;

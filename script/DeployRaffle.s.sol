@@ -15,9 +15,9 @@ contract DeployRaffle is Script {
             uint256 interval,
             address vrfCoordinator,
             bytes32 keyHash,
-            uint256 subscriptionId,
-            uint32 callbackGasLimit
-        ) = helperConfig.activeNetworkConfig();
+            uint32 callbackGasLimit,
+            uint256 subscriptionId
+        ) = helperConfig.localNetworkConfig();
 
         vm.startBroadcast();
         Raffle raffle = new Raffle(
@@ -25,11 +25,15 @@ contract DeployRaffle is Script {
             interval,
             vrfCoordinator,
             keyHash,
-            subscriptionId,
-            callbackGasLimit
+            callbackGasLimit,
+            subscriptionId
         );
         vm.stopBroadcast();
 
         return raffle;
+    }
+
+    function deployContract() public returns (Raffle, HelperConfig) {
+        //HelperConfig config = new
     }
 }
