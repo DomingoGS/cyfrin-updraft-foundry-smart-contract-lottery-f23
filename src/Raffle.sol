@@ -35,6 +35,7 @@ contract Raffle is VRFConsumerBaseV2Plus {
 
     event EnteredRaffle(address indexed player);
     event PickedWinner(address indexed winner);
+    event RequestedRaffleWinner(uint256 indexed requestId);
 
     error Raffle__NotEnoughEthSent();
     error Raffle__TransferFailed();
@@ -126,7 +127,7 @@ contract Raffle is VRFConsumerBaseV2Plus {
         s_raffleState = RaffleState.CALCULATING;
         // Request the RNG (Random Number Generation).
         // Will revert if subscription is not set and funded.
-        i_vrfCoordinator.requestRandomWords(
+        uint256 requestId = i_vrfCoordinator.requestRandomWords(
             VRFV2PlusClient.RandomWordsRequest({
                 keyHash: i_keyHash,
                 subId: i_subscriptionId,
@@ -140,6 +141,8 @@ contract Raffle is VRFConsumerBaseV2Plus {
                 )
             })
         );
+
+        emit RequestedRaffleWinner(requestId);
     }
 
     // Get the random number
